@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Nutrition — Know Your Number</title>
+  <meta name="description" content="A food-budget system that makes calorie-controlled, high-protein eating understandable to anyone. Know your number. Protein first. Portion moves.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥩</text></svg>">
+</head>
+<body>
+
+  <!-- ============ LANDING SCREEN ============ -->
+  <div id="screen-landing" class="screen active">
+    <div class="container">
+      <div class="hero">
+        <div class="hero-tagline">Simple Nutrition</div>
+        <h1>Know Your Number</h1>
+        <p class="hero-subtitle">A food-budget system that makes eating well simple. No nutrition degree required.</p>
+
+        <div class="hero-numbers">
+          <div class="hero-number">
+            <span class="big">1,800</span>
+            <span class="label">Calories</span>
+          </div>
+          <div class="hero-number">
+            <span class="big">120g</span>
+            <span class="label">Protein</span>
+          </div>
+          <div class="hero-number">
+            <span class="big">4×</span>
+            <span class="label">Meals</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-large btn-full" onclick="showScreen('quiz')">
+          Find My Number →
+        </button>
+      </div>
+
+      <!-- Philosophy -->
+      <div class="philosophy">
+        <h2>How It Works</h2>
+        <p class="philosophy-sub">Every time you eat, build a box.</p>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-icon green">🥩</div>
+            <div>
+              <h3>1. Anchor</h3>
+              <p>Start with protein. It anchors your meal and keeps you full.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-icon green">🥦</div>
+            <div>
+              <h3>2. Fill</h3>
+              <p>Add volume — vegetables, fruit, broth. More food, fewer calories.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-icon yellow">🍚</div>
+            <div>
+              <h3>3. Dial</h3>
+              <p>Turn the portion dial on rice, pasta, bread. Protein stays. Portions move.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-icon blue">🌶️</div>
+            <div>
+              <h3>4. Flavor</h3>
+              <p>Big flavor, small budget. Salsa, spices, herbs, hot sauce — go wild.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What this is NOT -->
+      <div class="not-this">
+        <h2>This Is Not a Diet</h2>
+        <div class="not-grid">
+          <div class="not-item">Rigid meal plan</div>
+          <div class="not-item">Recipe subscription</div>
+          <div class="not-item">"Clean eating"</div>
+          <div class="not-item">Keto or low-carb</div>
+          <div class="not-item">Fasting program</div>
+          <div class="not-item">Forbidden foods</div>
+        </div>
+
+        <div class="instead-box">
+          <h3>It's a Food-Budget System</h3>
+          <p>You get a daily budget. You choose how to spend it.<br>Same food. Right portion. Your way of eating.</p>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-large btn-full mb-32" onclick="showScreen('quiz')">
+        Get My Plan — It's Free →
+      </button>
+
+      <div class="disclaimer">
+        This is a general wellness tool, not medical nutrition therapy.<br>
+        Calorie estimates are starting estimates. Consult a professional for medical dietary needs.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ QUIZ SCREEN ============ -->
+  <div id="screen-quiz" class="screen">
+    <div class="container">
+      <div class="quiz-progress" id="quiz-progress"></div>
+
+      <!-- Q1: Sex -->
+      <div class="quiz-question active" data-q="1">
+        <div class="quiz-label">Question 1 of 6</div>
+        <h2 class="quiz-title">What's your biological sex?</h2>
+        <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.85rem;">Used only for calorie estimation.</p>
+        <div class="option-grid">
+          <button class="option-btn" onclick="selectOption(1, 'male')">
+            <span class="option-emoji">♂️</span>
+            <span class="option-text"><strong>Male</strong></span>
+          </button>
+          <button class="option-btn" onclick="selectOption(1, 'female')">
+            <span class="option-emoji">♀️</span>
+            <span class="option-text"><strong>Female</strong></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Q2: Age -->
+      <div class="quiz-question" data-q="2">
+        <div class="quiz-label">Question 2 of 6</div>
+        <h2 class="quiz-title">How old are you?</h2>
+        <div class="input-group">
+          <div class="input-field">
+            <input type="number" id="input-age" min="16" max="99" placeholder="30" inputmode="numeric">
+            <label>Years</label>
+          </div>
+        </div>
+        <div class="quiz-nav">
+          <button class="btn btn-secondary" onclick="prevQuestion()">← Back</button>
+          <button class="btn btn-primary" onclick="submitAge()">Next →</button>
+        </div>
+      </div>
+
+      <!-- Q3: Height -->
+      <div class="quiz-question" data-q="3">
+        <div class="quiz-label">Question 3 of 6</div>
+        <h2 class="quiz-title">How tall are you?</h2>
+        <div class="unit-toggle" id="height-units">
+          <button class="active" onclick="setHeightUnit('imperial')">Feet / Inches</button>
+          <button onclick="setHeightUnit('metric')">Centimeters</button>
+        </div>
+        <div class="input-group" id="height-imperial">
+          <div class="input-row">
+            <div class="input-field">
+              <input type="number" id="input-feet" min="4" max="7" placeholder="5" inputmode="numeric">
+              <label>Feet</label>
+            </div>
+            <div class="input-field">
+              <input type="number" id="input-inches" min="0" max="11" placeholder="10" inputmode="numeric">
+              <label>Inches</label>
+            </div>
+          </div>
+        </div>
+        <div class="input-group" id="height-metric" style="display:none">
+          <div class="input-field">
+            <input type="number" id="input-cm" min="120" max="230" placeholder="178" inputmode="numeric">
+            <label>Centimeters</label>
+          </div>
+        </div>
+        <div class="quiz-nav">
+          <button class="btn btn-secondary" onclick="prevQuestion()">← Back</button>
+          <button class="btn btn-primary" onclick="submitHeight()">Next →</button>
+        </div>
+      </div>
+
+      <!-- Q4: Weight -->
+      <div class="quiz-question" data-q="4">
+        <div class="quiz-label">Question 4 of 6</div>
+        <h2 class="quiz-title">How much do you weigh?</h2>
+        <div class="unit-toggle" id="weight-units">
+          <button class="active" onclick="setWeightUnit('imperial')">Pounds</button>
+          <button onclick="setWeightUnit('metric')">Kilograms</button>
+        </div>
+        <div class="input-group" id="weight-imperial">
+          <div class="input-field">
+            <input type="number" id="input-lbs" min="80" max="500" placeholder="180" inputmode="numeric">
+            <label>Pounds</label>
+          </div>
+        </div>
+        <div class="input-group" id="weight-metric" style="display:none">
+          <div class="input-field">
+            <input type="number" id="input-kg" min="35" max="230" placeholder="82" inputmode="numeric">
+            <label>Kilograms</label>
+          </div>
+        </div>
+        <div class="quiz-nav">
+          <button class="btn btn-secondary" onclick="prevQuestion()">← Back</button>
+          <button class="btn btn-primary" onclick="submitWeight()">Next →</button>
+        </div>
+      </div>
+
+      <!-- Q5: Activity -->
+      <div class="quiz-question" data-q="5">
+        <div class="quiz-label">Question 5 of 6</div>
+        <h2 class="quiz-title">How active are you?</h2>
+        <div class="option-grid">
+          <button class="option-btn" onclick="selectOption(5, 1.2)">
+            <span class="option-emoji">🪑</span>
+            <span class="option-text">
+              <strong>Mostly Sitting</strong>
+              <span>Desk job, little exercise</span>
+            </span>
+          </button>
+          <button class="option-btn" onclick="selectOption(5, 1.375)">
+            <span class="option-emoji">🚶</span>
+            <span class="option-text">
+              <strong>Somewhat Active</strong>
+              <span>Walking or exercise 1–3 days/week</span>
+            </span>
+          </button>
+          <button class="option-btn" onclick="selectOption(5, 1.55)">
+            <span class="option-emoji">🏃</span>
+            <span class="option-text">
+              <strong>Active</strong>
+              <span>Exercise 3–5 days/week</span>
+            </span>
+          </button>
+          <button class="option-btn" onclick="selectOption(5, 1.725)">
+            <span class="option-emoji">🏋️</span>
+            <span class="option-text">
+              <strong>Very Active</strong>
+              <span>Hard training or physical job most days</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Q6: Meal Frequency -->
+      <div class="quiz-question" data-q="6">
+        <div class="quiz-label">Question 6 of 6</div>
+        <h2 class="quiz-title">How often do you like to eat?</h2>
+        <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.85rem;">Choose the pattern that makes eating easier for you.</p>
+        <div class="option-grid">
+          <button class="option-btn" onclick="selectOption(6, 2)">
+            <span class="option-emoji">🍽️🍽️</span>
+            <span class="option-text">
+              <strong>2× Big Meal Person</strong>
+              <span>Two really satisfying meals</span>
+            </span>
+          </button>
+          <button class="option-btn" onclick="selectOption(6, 3)">
+            <span class="option-emoji">🍽️🍽️🍽️</span>
+            <span class="option-text">
+              <strong>3× Classic Eater</strong>
+              <span>Breakfast, lunch, and dinner</span>
+            </span>
+          </button>
+          <button class="option-btn" onclick="selectOption(6, 4)">
+            <span class="option-emoji">🍽️🍽️🍽️🍽️</span>
+            <span class="option-text">
+              <strong>4× Balanced Eater</strong>
+              <span>Eating every few hours</span>
+            </span>
+          </button>
+          <button class="option-btn" onclick="selectOption(6, 5)">
+            <span class="option-emoji">🍽️×5</span>
+            <span class="option-text">
+              <strong>5× Frequent Eater</strong>
+              <span>Always another meal coming</span>
+            </span>
+          </button>
+          <button class="option-btn" onclick="selectOption(6, 6)">
+            <span class="option-emoji">🍽️×6</span>
+            <span class="option-text">
+              <strong>6× Grazer</strong>
+              <span>Something throughout the day</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ RESULTS SCREEN ============ -->
+  <div id="screen-results" class="screen">
+    <div class="container">
+      <div class="results-header fade-in">
+        <h1>Here's Your Plan</h1>
+        <p>Your daily food budget, calculated just for you.</p>
+      </div>
+
+      <div class="plan-card fade-in">
+        <div class="plan-label">Your Daily Plan</div>
+        <div class="plan-stats">
+          <div class="plan-stat">
+            <span class="number" id="r-calories">1,800</span>
+            <span class="unit">Calories/day</span>
+          </div>
+          <div class="plan-stat">
+            <span class="number" id="r-protein">120g</span>
+            <span class="unit">Protein/day</span>
+          </div>
+        </div>
+        <div class="plan-freq">
+          <strong id="r-freq">4</strong> eating occasions per day
+        </div>
+      </div>
+
+      <div class="box-card fade-in">
+        <div class="box-label">Your Box</div>
+        <div class="box-desc">Every time you eat, aim for approximately:</div>
+        <div class="box-stats">
+          <div class="box-stat">
+            <span class="number" id="r-box-cal">450</span>
+            <span class="unit">Calories</span>
+          </div>
+          <div class="box-stat">
+            <span class="number" id="r-box-pro">30g</span>
+            <span class="unit">Protein</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="results-explanation">
+        Same daily budget. Different eating style.<br>
+        Your box is a planning tool, not a hard limit.<br>
+        The daily total is what matters most.
+      </p>
+
+      <div class="results-actions">
+        <button class="btn btn-primary btn-large btn-full" onclick="startBuilder()">
+          Build My First Box →
+        </button>
+        <button class="btn btn-secondary btn-full" onclick="showScreen('daily')">
+          View My Day
+        </button>
+        <button class="btn btn-secondary btn-full" onclick="showScreen('quiz')">
+          ← Recalculate
+        </button>
+      </div>
+
+      <div class="disclaimer">
+        These are starting estimates based on the Mifflin–St Jeor equation.<br>
+        Your body may need more or fewer calories. Adjust based on real results.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ BUILDER SCREEN ============ -->
+  <div id="screen-builder" class="screen">
+    <div class="container">
+      <div class="builder-header">
+        <div class="builder-target">
+          <h2>Build Your Box</h2>
+          <div class="target-nums">
+            <span id="b-target-cal">450</span> cal · <span id="b-target-pro">30</span>g pro
+          </div>
+        </div>
+        <div class="progress-bars">
+          <div class="progress-item">
+            <span class="progress-label">Calories</span>
+            <div class="progress-track">
+              <div class="progress-fill cal" id="b-cal-bar" style="width: 0%"></div>
+            </div>
+            <span class="progress-nums" id="b-cal-nums">0 / 450</span>
+          </div>
+          <div class="progress-item">
+            <span class="progress-label">Protein</span>
+            <div class="progress-track">
+              <div class="progress-fill pro" id="b-pro-bar" style="width: 0%"></div>
+            </div>
+            <span class="progress-nums" id="b-pro-nums">0 / 30g</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selected Foods -->
+      <div class="selected-foods" id="selected-foods"></div>
+
+      <!-- Step 1: Protein Anchor -->
+      <div class="builder-section">
+        <div class="section-header">
+          <div class="section-num s1">1</div>
+          <div>
+            <div class="section-title">Anchor — Protein First</div>
+            <div class="section-subtitle">Pick your protein to hit your target</div>
+          </div>
+        </div>
+        <div class="food-scroll" id="protein-foods"></div>
+      </div>
+
+      <!-- Step 2: Volume -->
+      <div class="builder-section">
+        <div class="section-header">
+          <div class="section-num s2">2</div>
+          <div>
+            <div class="section-title">Fill — Add Volume</div>
+            <div class="section-subtitle">More food, fewer calories per bite</div>
+          </div>
+        </div>
+        <div class="food-scroll" id="volume-foods"></div>
+      </div>
+
+      <!-- Step 3: Dial -->
+      <div class="builder-section">
+        <div class="section-header">
+          <div class="section-num s3">3</div>
+          <div>
+            <div class="section-title">Dial — Turn the Portion</div>
+            <div class="section-subtitle">Protein stays. Portions move.</div>
+          </div>
+        </div>
+        <div class="food-scroll" id="dial-foods"></div>
+        <div class="portion-control" id="dial-portion"></div>
+      </div>
+
+      <!-- Step 4: Flavor -->
+      <div class="builder-section">
+        <div class="section-header">
+          <div class="section-num s4">4</div>
+          <div>
+            <div class="section-title">Flavor — Big Flavor, Small Budget</div>
+            <div class="section-subtitle">Season generously</div>
+          </div>
+        </div>
+        <div class="food-scroll" id="flavor-foods"></div>
+      </div>
+
+      <div class="mt-24">
+        <button class="btn btn-primary btn-full" id="save-box-btn" onclick="saveBox()">
+          Save This Box ✓
+        </button>
+        <button class="btn btn-secondary btn-full mt-16" onclick="showScreen('daily')">
+          ← Back to My Day
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOOD LIBRARY SCREEN ============ -->
+  <div id="screen-library" class="screen">
+    <div class="container">
+      <div class="library-header">
+        <h1>Food Library</h1>
+        <p>Organized by function, not food group.</p>
+      </div>
+
+      <div class="library-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="food-search" placeholder="Search foods..." oninput="filterLibrary()">
+      </div>
+
+      <div class="category-tabs" id="category-tabs"></div>
+      <div class="food-grid" id="library-grid"></div>
+    </div>
+  </div>
+
+  <!-- ============ DAILY VIEW SCREEN ============ -->
+  <div id="screen-daily" class="screen">
+    <div class="container">
+      <div class="daily-header">
+        <h1>My Day</h1>
+        <span class="daily-date" id="daily-date"></span>
+      </div>
+
+      <div class="daily-summary">
+        <div class="daily-summary-row">
+          <span class="daily-summary-label">Calories</span>
+          <span class="daily-summary-value" id="d-cal-summary">0 / 1,800</span>
+        </div>
+        <div class="daily-summary-row">
+          <span class="daily-summary-label">Protein</span>
+          <span class="daily-summary-value" id="d-pro-summary">0 / 120g</span>
+        </div>
+      </div>
+
+      <div class="progress-bars mb-24">
+        <div class="progress-item">
+          <span class="progress-label">Calories</span>
+          <div class="progress-track">
+            <div class="progress-fill cal" id="d-cal-bar" style="width: 0%"></div>
+          </div>
+          <span class="progress-nums" id="d-cal-nums">0%</span>
+        </div>
+        <div class="progress-item">
+          <span class="progress-label">Protein</span>
+          <div class="progress-track">
+            <div class="progress-fill pro" id="d-pro-bar" style="width: 0%"></div>
+          </div>
+          <span class="progress-nums" id="d-pro-nums">0%</span>
+        </div>
+      </div>
+
+      <div class="box-list" id="daily-boxes"></div>
+
+      <button class="btn btn-primary btn-full" onclick="startBuilder()">
+        Build a Box +
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ BOTTOM NAV ============ -->
+  <nav class="bottom-nav" id="bottom-nav" style="display:none">
+    <button class="nav-item" onclick="showScreen('daily')" data-nav="daily">
+      <span class="nav-icon">📊</span>
+      My Day
+    </button>
+    <button class="nav-item" onclick="startBuilder()" data-nav="builder">
+      <span class="nav-icon">🧱</span>
+      Build
+    </button>
+    <button class="nav-item" onclick="showScreen('library')" data-nav="library">
+      <span class="nav-icon">📚</span>
+      Foods
+    </button>
+    <button class="nav-item" onclick="showScreen('results')" data-nav="results">
+      <span class="nav-icon">⚙️</span>
+      Plan
+    </button>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
