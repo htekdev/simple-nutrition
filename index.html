@@ -111,7 +111,7 @@
 
       <!-- Q1: Sex -->
       <div class="quiz-question active" data-q="1">
-        <div class="quiz-label">Question 1 of 6</div>
+        <div class="quiz-label">Question 1 of 7</div>
         <h2 class="quiz-title">What's your biological sex?</h2>
         <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.85rem;">Used only for calorie estimation.</p>
         <div class="option-grid">
@@ -128,7 +128,7 @@
 
       <!-- Q2: Age -->
       <div class="quiz-question" data-q="2">
-        <div class="quiz-label">Question 2 of 6</div>
+        <div class="quiz-label">Question 2 of 7</div>
         <h2 class="quiz-title">How old are you?</h2>
         <div class="input-group">
           <div class="input-field">
@@ -144,7 +144,7 @@
 
       <!-- Q3: Height -->
       <div class="quiz-question" data-q="3">
-        <div class="quiz-label">Question 3 of 6</div>
+        <div class="quiz-label">Question 3 of 7</div>
         <h2 class="quiz-title">How tall are you?</h2>
         <div class="unit-toggle" id="height-units">
           <button class="active" onclick="setHeightUnit('imperial')">Feet / Inches</button>
@@ -176,7 +176,7 @@
 
       <!-- Q4: Weight -->
       <div class="quiz-question" data-q="4">
-        <div class="quiz-label">Question 4 of 6</div>
+        <div class="quiz-label">Question 4 of 7</div>
         <h2 class="quiz-title">How much do you weigh?</h2>
         <div class="unit-toggle" id="weight-units">
           <button class="active" onclick="setWeightUnit('imperial')">Pounds</button>
@@ -202,7 +202,7 @@
 
       <!-- Q5: Activity -->
       <div class="quiz-question" data-q="5">
-        <div class="quiz-label">Question 5 of 6</div>
+        <div class="quiz-label">Question 5 of 7</div>
         <h2 class="quiz-title">How active are you?</h2>
         <div class="option-grid">
           <button class="option-btn" onclick="selectOption(5, 1.2)">
@@ -236,41 +236,70 @@
         </div>
       </div>
 
-      <!-- Q6: Meal Frequency -->
+      <!-- Q6: Goal -->
       <div class="quiz-question" data-q="6">
-        <div class="quiz-label">Question 6 of 6</div>
+        <div class="quiz-label">Question 6 of 7</div>
+        <h2 class="quiz-title">What's your goal?</h2>
+        <div class="option-grid">
+          <button class="option-btn" onclick="selectOption(6, 'lose')">
+            <span class="option-emoji">⬇️</span>
+            <span class="option-text">
+              <strong>Lose Weight</strong>
+              <span>About 1 pound per week — safe, sustainable pace</span>
+            </span>
+          </button>
+          <button class="option-btn" onclick="selectOption(6, 'maintain')">
+            <span class="option-emoji">⚖️</span>
+            <span class="option-text">
+              <strong>Maintain Weight</strong>
+              <span>I'm happy where I am — just eat well</span>
+            </span>
+          </button>
+          <button class="option-btn" onclick="selectOption(6, 'gain')">
+            <span class="option-emoji">⬆️</span>
+            <span class="option-text">
+              <strong>Gain Weight</strong>
+              <span>Build muscle or add healthy weight</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Q7: Meal Frequency -->
+      <div class="quiz-question" data-q="7">
+        <div class="quiz-label">Question 7 of 7</div>
         <h2 class="quiz-title">How often do you like to eat?</h2>
         <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.85rem;">Choose the pattern that makes eating easier for you.</p>
         <div class="option-grid">
-          <button class="option-btn" onclick="selectOption(6, 2)">
+          <button class="option-btn" onclick="selectOption(7, 2)">
             <span class="option-emoji">🍽️🍽️</span>
             <span class="option-text">
               <strong>2× Big Meal Person</strong>
               <span>Two really satisfying meals</span>
             </span>
           </button>
-          <button class="option-btn" onclick="selectOption(6, 3)">
+          <button class="option-btn" onclick="selectOption(7, 3)">
             <span class="option-emoji">🍽️🍽️🍽️</span>
             <span class="option-text">
               <strong>3× Classic Eater</strong>
               <span>Breakfast, lunch, and dinner</span>
             </span>
           </button>
-          <button class="option-btn" onclick="selectOption(6, 4)">
+          <button class="option-btn" onclick="selectOption(7, 4)">
             <span class="option-emoji">🍽️🍽️🍽️🍽️</span>
             <span class="option-text">
               <strong>4× Balanced Eater</strong>
               <span>Eating every few hours</span>
             </span>
           </button>
-          <button class="option-btn" onclick="selectOption(6, 5)">
+          <button class="option-btn" onclick="selectOption(7, 5)">
             <span class="option-emoji">🍽️×5</span>
             <span class="option-text">
               <strong>5× Frequent Eater</strong>
               <span>Always another meal coming</span>
             </span>
           </button>
-          <button class="option-btn" onclick="selectOption(6, 6)">
+          <button class="option-btn" onclick="selectOption(7, 6)">
             <span class="option-emoji">🍽️×6</span>
             <span class="option-text">
               <strong>6× Grazer</strong>
@@ -329,14 +358,17 @@
       </p>
 
       <div class="results-actions">
-        <button class="btn btn-primary btn-large btn-full" onclick="startBuilder()">
-          Build My First Box →
+        <button class="btn btn-primary btn-large btn-full" onclick="showScreen('recipes')">
+          Browse Recipes →
+        </button>
+        <button class="btn btn-secondary btn-full" onclick="startBuilder()">
+          Build My Own Box
+        </button>
+        <button class="btn btn-secondary btn-full" onclick="showScreen('quick')">
+          ⚡ Quick Meals (No Cooking)
         </button>
         <button class="btn btn-secondary btn-full" onclick="showScreen('daily')">
           View My Day
-        </button>
-        <button class="btn btn-secondary btn-full" onclick="showScreen('quiz')">
-          ← Recalculate
         </button>
       </div>
 
@@ -500,19 +532,78 @@
     </div>
   </div>
 
+  <!-- ============ RECIPES SCREEN ============ -->
+  <div id="screen-recipes" class="screen">
+    <div class="container">
+      <div class="library-header">
+        <h1>Recipes</h1>
+        <p>Pre-built meals that fit your box. Pick recipes → get a grocery list.</p>
+      </div>
+
+      <div class="category-tabs" id="recipe-tabs"></div>
+      <div id="recipe-grid" class="recipe-grid"></div>
+
+      <div class="mt-24">
+        <button class="btn btn-primary btn-full" onclick="showScreen('grocery')" id="grocery-btn" style="display:none">
+          🛒 Generate Grocery List (<span id="selected-recipe-count">0</span> recipes)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ RECIPE DETAIL MODAL ============ -->
+  <div id="recipe-modal" class="modal" style="display:none">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeRecipeModal()">✕</button>
+      <div id="recipe-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ============ GROCERY LIST SCREEN ============ -->
+  <div id="screen-grocery" class="screen">
+    <div class="container">
+      <div class="library-header">
+        <h1>🛒 Grocery List</h1>
+        <p id="grocery-subtitle">Based on your selected recipes</p>
+      </div>
+      <div id="grocery-list"></div>
+      <div class="mt-24">
+        <button class="btn btn-secondary btn-full" onclick="copyGroceryList()">📋 Copy List</button>
+        <button class="btn btn-secondary btn-full mt-16" onclick="showScreen('recipes')">← Back to Recipes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ QUICK MEALS SCREEN ============ -->
+  <div id="screen-quick" class="screen">
+    <div class="container">
+      <div class="library-header">
+        <h1>Quick Meals</h1>
+        <p>Don't want to cook? These fit your box too.</p>
+      </div>
+
+      <div class="category-tabs" id="quick-tabs"></div>
+      <div id="quick-grid"></div>
+    </div>
+  </div>
+
   <!-- ============ BOTTOM NAV ============ -->
   <nav class="bottom-nav" id="bottom-nav" style="display:none">
     <button class="nav-item" onclick="showScreen('daily')" data-nav="daily">
       <span class="nav-icon">📊</span>
       My Day
     </button>
+    <button class="nav-item" onclick="showScreen('recipes')" data-nav="recipes">
+      <span class="nav-icon">🍳</span>
+      Recipes
+    </button>
+    <button class="nav-item" onclick="showScreen('quick')" data-nav="quick">
+      <span class="nav-icon">⚡</span>
+      Quick
+    </button>
     <button class="nav-item" onclick="startBuilder()" data-nav="builder">
       <span class="nav-icon">🧱</span>
       Build
-    </button>
-    <button class="nav-item" onclick="showScreen('library')" data-nav="library">
-      <span class="nav-icon">📚</span>
-      Foods
     </button>
     <button class="nav-item" onclick="showScreen('results')" data-nav="results">
       <span class="nav-icon">⚙️</span>
