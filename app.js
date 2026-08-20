@@ -480,6 +480,27 @@ function showResults() {
   document.getElementById('r-freq').textContent = state.frequency;
   document.getElementById('r-box-cal').textContent = state.boxCalories;
   document.getElementById('r-box-pro').textContent = state.boxProtein + 'g';
+
+  // Populate calculation breakdown
+  const maint = Math.round(state.maintenance);
+  const maintDisplay = `~${(Math.round(maint / 100) * 100).toLocaleString()} cal/day`;
+  document.getElementById('r-maintenance').textContent = maintDisplay;
+
+  if (state.goal === 'lose') {
+    document.getElementById('r-goal-label').textContent = 'Weight Loss Goal';
+    document.getElementById('r-goal-adjust').textContent = '−500 cal/day (≈1 lb/week)';
+  } else if (state.goal === 'gain') {
+    document.getElementById('r-goal-label').textContent = 'Weight Gain Goal';
+    document.getElementById('r-goal-adjust').textContent = '+300 cal/day (lean gain)';
+  } else {
+    document.getElementById('r-goal-label').textContent = 'Goal';
+    document.getElementById('r-goal-adjust').textContent = 'Maintain — no adjustment';
+  }
+
+  document.getElementById('r-target-display').textContent = `${state.calorieLane.toLocaleString()} cal/day`;
+  document.getElementById('r-freq2').textContent = state.frequency;
+  document.getElementById('r-per-meal').textContent = `${state.boxCalories} cal/meal`;
+
   showScreen('results');
 }
 
@@ -487,6 +508,19 @@ function showResults() {
 let activeRecipeCat = 'all';
 
 function initRecipes() {
+  // Show/hide plan context nudge
+  const hasPlan = !!state.calorieLane;
+  const planNudge = document.getElementById('recipe-plan-nudge');
+  const noPlanNudge = document.getElementById('recipe-no-plan-nudge');
+  if (hasPlan) {
+    planNudge.style.display = 'block';
+    noPlanNudge.style.display = 'none';
+    document.getElementById('nudge-cal').textContent = state.boxCalories;
+    document.getElementById('nudge-pro').textContent = state.boxProtein;
+  } else {
+    planNudge.style.display = 'none';
+    noPlanNudge.style.display = 'block';
+  }
   renderRecipeTabs();
   renderRecipeGrid();
   updateGroceryBtn();
@@ -505,11 +539,13 @@ function setRecipeCat(cat) { activeRecipeCat = cat; renderRecipeTabs(); renderRe
 function renderRecipeGrid() {
   const recipes = activeRecipeCat === 'all' ? RECIPES : RECIPES.filter(r => r.category === activeRecipeCat);
   const grid = document.getElementById('recipe-grid');
+  const hasPlan = !!state.calorieLane;
   grid.innerHTML = recipes.map(r => {
     const isSelected = state.selectedRecipes.includes(r.id);
+    const boxFit = hasPlan ? (Math.abs(r.cal - state.boxCalories) <= 100 ? '✓ Fits your box' : `Box: ~${state.boxCalories} cal`) : '';
     return `
-      <div class="recipe-card ${isSelected ? 'selected' : ''}" onclick="toggleRecipe('${r.id}')">
-        <div class="recipe-card-header">
+      <div class="recipe-card ${isSelected ? 'selected' : ''}">
+        <div class="recipe-card-header" onclick="openRecipeDetail('${r.id}')">
           <span class="recipe-emoji">${r.emoji}</span>
           <div class="recipe-card-info">
             <h3>${r.name}</h3>
@@ -521,8 +557,13 @@ function renderRecipeGrid() {
           <span class="recipe-macro pro">${r.pro}g protein</span>
           <span class="recipe-macro time">⏱ ${r.time}</span>
         </div>
-        <span class="recipe-badge">Fits a ${r.boxFit}-cal box</span>
-        <div class="recipe-select-indicator">${isSelected ? '✓ Selected for grocery list' : 'Tap to select for grocery list'}</div>
+        ${hasPlan && boxFit ? `<span class="recipe-badge">${boxFit}</span>` : `<span class="recipe-badge">Makes ${r.servings} servings</span>`}
+        <div class="recipe-actions">
+          <button class="btn-recipe-view" onclick="openRecipeDetail('${r.id}')">📖 View Recipe</button>
+          <button class="btn-recipe-select ${isSelected ? 'selected' : ''}" onclick="toggleRecipe('${r.id}')">
+            ${isSelected ? '✓ In List' : '+ Grocery List'}
+          </button>
+        </div>
       </div>
     `;
   }).join('');
