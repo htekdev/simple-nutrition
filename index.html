@@ -36,6 +36,9 @@
         <button class="btn btn-primary btn-large btn-full" onclick="showScreen('quiz')">
           Find My Number →
         </button>
+        <button class="btn btn-outline btn-full" onclick="showScreen('recipes')" style="margin-top: 12px;">
+          🍳 Browse Recipes
+        </button>
       </div>
 
       <!-- Philosophy -->
@@ -351,6 +354,30 @@
         </div>
       </div>
 
+      <!-- Calculation Breakdown -->
+      <div class="calc-breakdown fade-in">
+        <div class="calc-title">📊 How We Got Here</div>
+        <div class="calc-row">
+          <span class="calc-label">Estimated Maintenance</span>
+          <span class="calc-value" id="r-maintenance">—</span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label" id="r-goal-label">Goal Adjustment</span>
+          <span class="calc-value" id="r-goal-adjust">—</span>
+        </div>
+        <div class="calc-row calc-row-highlight">
+          <span class="calc-label">Daily Target</span>
+          <span class="calc-value" id="r-target-display">—</span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">Per Meal (<span id="r-freq2">4</span> occasions)</span>
+          <span class="calc-value" id="r-per-meal">—</span>
+        </div>
+        <div class="calc-note">
+          Mifflin–St Jeor is the most validated resting metabolic rate equation. Your maintenance is an estimate — the scale tells you the truth over time. If you're losing faster or slower than expected, adjust your calorie lane accordingly.
+        </div>
+      </div>
+
       <p class="results-explanation">
         Same daily budget. Different eating style.<br>
         Your box is a planning tool, not a hard limit.<br>
@@ -537,7 +564,18 @@
     <div class="container">
       <div class="library-header">
         <h1>Recipes</h1>
-        <p>Pre-built meals that fit your box. Pick recipes → get a grocery list.</p>
+        <p>Real meals, real macros. Tap a recipe to see ingredients + steps.</p>
+      </div>
+      <div id="recipe-plan-nudge" style="display:none" class="calc-breakdown" style="margin-bottom:16px">
+        <div class="calc-title">📊 Your Box</div>
+        <div style="display:flex;gap:16px;font-size:0.9rem">
+          <span><strong id="nudge-cal">—</strong> cal/meal</span>
+          <span><strong id="nudge-pro">—</strong>g protein</span>
+        </div>
+        <div style="margin-top:8px;font-size:0.8rem;color:var(--text-dim)">Recipes marked ✓ fit your box size.</div>
+      </div>
+      <div id="recipe-no-plan-nudge" class="calc-breakdown">
+        <div style="font-size:0.85rem;color:var(--text-muted)">No plan yet? <a href="#" onclick="showScreen('quiz'); return false;" style="color:var(--accent);text-decoration:none;font-weight:600">Answer 7 quick questions →</a> and we'll show you which recipes fit your calorie box.</div>
       </div>
 
       <div class="category-tabs" id="recipe-tabs"></div>
