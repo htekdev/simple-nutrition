@@ -1394,3 +1394,103 @@ h3 { font-size: 1.2rem; }
   color: var(--text-muted);
   font-style: italic;
 }
+
+/* ======== CALCULATION BREAKDOWN ======== */
+.calc-breakdown {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.calc-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.calc-row:last-of-type { border-bottom: none; }
+
+.calc-label { color: var(--text-muted); }
+.calc-value { font-weight: 600; color: var(--text); }
+
+.calc-row-highlight {
+  background: rgba(59,130,246,0.08);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin: 6px -12px;
+  border-bottom: none !important;
+}
+
+.calc-row-highlight .calc-label { color: var(--text); font-weight: 600; }
+.calc-row-highlight .calc-value { color: var(--accent); font-size: 1rem; }
+
+.calc-note {
+  margin-top: 14px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+/* ======== RECIPE ACTION BUTTONS ======== */
+.recipe-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn-recipe-view {
+  flex: 1;
+  padding: 10px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  touch-action: manipulation;
+}
+
+.btn-recipe-view:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.08); }
+
+.btn-recipe-select {
+  flex: 1;
+  padding: 10px 14px;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: var(--radius-sm);
+  color: var(--green);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  touch-action: manipulation;
+}
+
+.btn-recipe-select:hover { background: rgba(34,197,94,0.2); }
+.btn-recipe-select.selected { background: var(--green); color: white; border-color: var(--green); }
+
+/* ======== OUTLINE BUTTON (Landing Browse Recipes) ======== */
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+}
+.btn-outline:hover { background: rgba(59,130,246,0.1); }
